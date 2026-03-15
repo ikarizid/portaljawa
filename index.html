@@ -28,7 +28,7 @@
       <img src="assets/logo_headline.png" alt="Portal Jawa" class="logo-img">
     </div>
     <div class="header-search">
-      <input type="text" placeholder="Cari berita...">
+      <input type="text" placeholder="Cari berita..." id="searchInput" oninput="handleSearch(this.value)">
       <button>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
@@ -52,7 +52,7 @@
 <div class="breaking-bar">
   <div class="container breaking-inner">
     <span class="breaking-label">⚡ Breaking</span>
-    <span class="breaking-text">Pemprov Jawa Timur Umumkan Pembangunan Jalan Tol Baru Sepanjang 120 Km — Gubernur: "Prioritas Konektivitas Antar Kota"</span>
+    <span class="breaking-text" id="breakingText">Memuat berita terkini...</span>
   </div>
 </div>
 
@@ -66,199 +66,29 @@
       <div class="section-line"></div>
     </div>
 
-    <!-- HERO GRID -->
-    <div class="hero-grid">
-
-      <!-- MAIN HERO -->
-      <a href="berita.html" class="hero-main card-link">
-        <div class="card-img-wrap">
-          <div class="ph ph-main"></div>
-        </div>
-        <div class="card-body">
-          <span class="badge badge-politik">Politik</span>
-          <h2 class="card-title hero-title">Pemilihan Kepala Daerah Serentak 2026 di Jawa: Rekap Lengkap Hasil Penghitungan Suara 38 Kabupaten</h2>
-          <p class="card-excerpt">KPU Jawa Timur merilis hasil resmi pemilihan kepala daerah serentak. Sejumlah incumbent tumbang di daerah yang selama ini dianggap basis kuat mereka.</p>
-          <div class="card-meta">
-            <span class="card-author">Ahmad Fauzi</span>
-            <span class="meta-dot">·</span>
-            <span>2 jam lalu</span>
-            <span class="meta-dot">·</span>
-            <span>8 mnt baca</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- SECONDARY -->
-      <a href="berita.html" class="hero-secondary card-link">
-        <div class="card-img-wrap">
-          <div class="ph ph-secondary ph-b"></div>
-        </div>
-        <div class="card-body">
-          <span class="badge badge-ekonomi">Ekonomi</span>
-          <h3 class="card-title">IHSG Melonjak 2,3% Didukung Sektor Manufaktur Jawa Tengah yang Kembali Bergairah</h3>
-          <div class="card-meta" style="margin-top:8px">
-            <span class="card-author">Siti Rahayu</span>
-            <span class="meta-dot">·</span><span>3 jam lalu</span>
-          </div>
-        </div>
-      </a>
-
-      <a href="berita.html" class="hero-secondary card-link">
-        <div class="card-img-wrap">
-          <div class="ph ph-secondary ph-c"></div>
-        </div>
-        <div class="card-body">
-          <span class="badge badge-olahraga">Olahraga</span>
-          <h3 class="card-title">Persebaya Surabaya Kalahkan Persija 3-1, Kembali ke Puncak Klasemen Liga 1</h3>
-          <div class="card-meta" style="margin-top:8px">
-            <span class="card-author">Rizky Pratama</span>
-            <span class="meta-dot">·</span><span>5 jam lalu</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- SIDEBAR -->
-      <div class="hero-sidebar">
-        <div class="sidebar-title">Terkini</div>
-        <a href="berita.html" class="sidebar-item card-link">
-          <div class="sidebar-thumb"><div class="ph" style="height:100%;background:#e8f0f8"></div></div>
-          <div class="sidebar-info">
-            <div class="sidebar-badge">Teknologi</div>
-            <div class="sidebar-headline">Startup Asal Surabaya Raih Pendanaan Seri B Rp 450 Miliar</div>
-            <div class="sidebar-time">30 mnt lalu</div>
-          </div>
-        </a>
-        <a href="berita.html" class="sidebar-item card-link">
-          <div class="sidebar-thumb"><div class="ph" style="height:100%;background:#e8f5e8"></div></div>
-          <div class="sidebar-info">
-            <div class="sidebar-badge">Lokal</div>
-            <div class="sidebar-headline">Banjir Bandang Terjang Dua Kecamatan di Malang Selatan</div>
-            <div class="sidebar-time">1 jam lalu</div>
-          </div>
-        </a>
-        <a href="berita.html" class="sidebar-item card-link">
-          <div class="sidebar-thumb"><div class="ph" style="height:100%;background:#f8e8f0"></div></div>
-          <div class="sidebar-info">
-            <div class="sidebar-badge">Hiburan</div>
-            <div class="sidebar-headline">Festival Budaya Jawa 2026 Dihadiri 40.000 Pengunjung</div>
-            <div class="sidebar-time">2 jam lalu</div>
-          </div>
-        </a>
-        <a href="berita.html" class="sidebar-item card-link">
-          <div class="sidebar-thumb"><div class="ph" style="height:100%;background:#fef5e8"></div></div>
-          <div class="sidebar-info">
-            <div class="sidebar-badge">Politik</div>
-            <div class="sidebar-headline">DPR Sahkan RUU Ketahanan Pangan dengan 312 Suara Setuju</div>
-            <div class="sidebar-time">4 jam lalu</div>
-          </div>
-        </a>
-      </div>
+    <!-- LOADING STATE -->
+    <div id="loadingState" style="text-align:center;padding:60px 0;color:#999">
+      <div style="width:32px;height:32px;border:3px solid #eee;border-top-color:#c0392b;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px"></div>
+      <p>Memuat berita...</p>
     </div>
 
-    <!-- BOTTOM 4-CARD ROW -->
-    <div class="bottom-row">
-      <a href="berita.html" class="bottom-card card-link">
-        <div class="ph ph-small" style="background:#eef2f8"></div>
-        <div class="card-body">
-          <span class="badge badge-teknologi">Teknologi</span>
-          <h3 class="card-title">Indonesia Luncurkan Satelit Komunikasi Generasi Terbaru dari Biak</h3>
-          <p class="card-excerpt">Badan Antariksa Nasional Indonesia berhasil meluncurkan satelit multifungsi yang akan memperkuat konektivitas.</p>
-          <div class="card-meta mt-10"><span class="card-author">Dewi Lestari</span><span class="meta-dot">·</span><span>6 jam lalu</span></div>
-        </div>
-      </a>
-      <a href="berita.html" class="bottom-card card-link">
-        <div class="ph ph-small" style="background:#f5eef8"></div>
-        <div class="card-body">
-          <span class="badge badge-hiburan">Hiburan &amp; Budaya</span>
-          <h3 class="card-title">Dalang Muda Jombang Raih Penghargaan Internasional di Festival Wayang Dunia</h3>
-          <p class="card-excerpt">Ki Bagas Wicaksono, 24 tahun, membawa pulang trofi emas dari kompetisi wayang kulit di Kyoto.</p>
-          <div class="card-meta mt-10"><span class="card-author">Nina Kartika</span><span class="meta-dot">·</span><span>7 jam lalu</span></div>
-        </div>
-      </a>
-      <a href="berita.html" class="bottom-card card-link">
-        <div class="ph ph-small" style="background:#eef8ee"></div>
-        <div class="card-body">
-          <span class="badge badge-ekonomi">Ekonomi &amp; Bisnis</span>
-          <h3 class="card-title">Ekspor Batik Jawa Meningkat 34% di Kuartal Pertama 2026</h3>
-          <p class="card-excerpt">Data Kementerian Perdagangan menunjukkan lonjakan permintaan batik dari pasar Eropa dan Amerika Utara.</p>
-          <div class="card-meta mt-10"><span class="card-author">Budi Santoso</span><span class="meta-dot">·</span><span>8 jam lalu</span></div>
-        </div>
-      </a>
-      <a href="berita.html" class="bottom-card card-link">
-        <div class="ph ph-small" style="background:#feeee8"></div>
-        <div class="card-body">
-          <span class="badge">Lokal</span>
-          <h3 class="card-title">Pemkot Surabaya Resmikan 15 Taman Kota Baru di Wilayah Timur</h3>
-          <p class="card-excerpt">Wali Kota meresmikan proyek ruang terbuka hijau senilai Rp 120 miliar yang menyasar kawasan padat penduduk.</p>
-          <div class="card-meta mt-10"><span class="card-author">Arif Hidayat</span><span class="meta-dot">·</span><span>9 jam lalu</span></div>
-        </div>
-      </a>
+    <!-- EMPTY STATE -->
+    <div id="emptyState" style="display:none;text-align:center;padding:60px 0;color:#999">
+      <p style="font-size:18px">Belum ada berita yang dipublish.</p>
+      <a href="admin/index.html" style="color:#c0392b;font-size:14px">Tambah berita di dashboard admin →</a>
     </div>
 
-    <!-- OPINI + TRENDING -->
-    <div class="special-grid">
-      <div class="opinion-section">
-        <div class="section-header" style="margin-bottom:14px">
-          <span class="section-title">Opini &amp; Analisis</span>
-          <div class="section-line"></div>
-        </div>
-        <a href="berita.html" class="opinion-item card-link">
-          <div class="opinion-avatar" style="background:#eef2fb;color:#1a3a6b">AW</div>
-          <div>
-            <div class="opinion-meta">Agus Widodo · Pengamat Politik</div>
-            <div class="opinion-title">Pilkada 2026 dan Ujian Kedewasaan Demokrasi Lokal di Jawa Timur</div>
-          </div>
-        </a>
-        <a href="berita.html" class="opinion-item card-link">
-          <div class="opinion-avatar" style="background:#eef8ee;color:#1a5a1a">SR</div>
-          <div>
-            <div class="opinion-meta">Sri Handayani · Ekonom</div>
-            <div class="opinion-title">Mengapa Pertumbuhan Ekonomi Jawa Tetap Solid di Tengah Ketidakpastian Global?</div>
-          </div>
-        </a>
-        <a href="berita.html" class="opinion-item card-link">
-          <div class="opinion-avatar" style="background:#feeee8;color:#8b0000">MR</div>
-          <div>
-            <div class="opinion-meta">M. Rizal · Budayawan</div>
-            <div class="opinion-title">Revitalisasi Seni Tradisional: Antara Pelestarian dan Komodifikasi Budaya</div>
-          </div>
-        </a>
-      </div>
+    <!-- HERO GRID (dinamis) -->
+    <div class="hero-grid" id="heroGrid" style="display:none"></div>
 
+    <!-- BOTTOM 4-CARD ROW (dinamis) -->
+    <div class="bottom-row" id="bottomRow" style="display:none"></div>
+
+    <!-- TRENDING SECTION -->
+    <div class="special-grid" id="specialGrid" style="display:none">
       <div class="trending-section">
         <div class="trending-header">🔥 Terpopuler</div>
-        <a href="berita.html" class="trending-item card-link">
-          <span class="trending-num">1</span>
-          <div>
-            <div class="trending-badge">Politik</div>
-            <div class="trending-headline">KPU Umumkan Hasil Final Pilkada Jatim, Calon Incumbent Kalah di 12 Daerah</div>
-            <div class="trending-time">2 jam lalu</div>
-          </div>
-        </a>
-        <a href="berita.html" class="trending-item card-link">
-          <span class="trending-num">2</span>
-          <div>
-            <div class="trending-badge">Olahraga</div>
-            <div class="trending-headline">Persebaya Juara, Bonek Rayakan di Seluruh Penjuru Surabaya</div>
-            <div class="trending-time">5 jam lalu</div>
-          </div>
-        </a>
-        <a href="berita.html" class="trending-item card-link">
-          <span class="trending-num">3</span>
-          <div>
-            <div class="trending-badge">Teknologi</div>
-            <div class="trending-headline">Startup Surabaya Jadi Unicorn Ketiga di Jawa Timur</div>
-            <div class="trending-time">6 jam lalu</div>
-          </div>
-        </a>
-        <a href="berita.html" class="trending-item card-link">
-          <span class="trending-num">4</span>
-          <div>
-            <div class="trending-badge">Lokal</div>
-            <div class="trending-headline">Temuan Arkeologi Baru di Trowulan Guncang Dunia Akademis</div>
-            <div class="trending-time">8 jam lalu</div>
-          </div>
-        </a>
+        <div id="trendingList"></div>
       </div>
     </div>
 
@@ -280,6 +110,210 @@
   </div>
 </footer>
 
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
 <script src="assets/script.js"></script>
+<script>
+// =====================
+// CONFIG
+// =====================
+const API_URL = '/api/berita';
+
+// Badge warna per kategori
+const badgeMap = {
+  'politik': 'badge-politik',
+  'ekonomi & bisnis': 'badge-ekonomi',
+  'olahraga': 'badge-olahraga',
+  'hiburan & budaya': 'badge-hiburan',
+  'teknologi': 'badge-teknologi',
+  'lokal / daerah': ''
+};
+
+function getBadgeClass(kat) {
+  return badgeMap[(kat || '').toLowerCase()] || '';
+}
+
+function timeAgo(isoStr) {
+  if (!isoStr) return '';
+  const diff = Math.floor((Date.now() - new Date(isoStr)) / 60000);
+  if (diff < 1) return 'Baru saja';
+  if (diff < 60) return diff + ' mnt lalu';
+  if (diff < 1440) return Math.floor(diff / 60) + ' jam lalu';
+  return Math.floor(diff / 1440) + ' hari lalu';
+}
+
+// =====================
+// FETCH & RENDER
+// =====================
+async function loadBerita() {
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error('Gagal fetch');
+    const data = await res.json();
+
+    document.getElementById('loadingState').style.display = 'none';
+
+    if (!data || data.length === 0) {
+      document.getElementById('emptyState').style.display = 'block';
+      return;
+    }
+
+    renderHero(data);
+    renderBottomRow(data);
+    renderTrending(data);
+    updateBreaking(data);
+
+  } catch (err) {
+    document.getElementById('loadingState').innerHTML =
+      '<p style="color:#c0392b">Gagal memuat berita. Silakan refresh halaman.</p>';
+  }
+}
+
+function updateBreaking(data) {
+  const latest = data[0];
+  if (latest) {
+    document.getElementById('breakingText').textContent = latest.judul;
+  }
+}
+
+function renderHero(data) {
+  const heroGrid = document.getElementById('heroGrid');
+  heroGrid.style.display = '';
+
+  // Berita utama (index 0)
+  const main = data[0];
+  // Berita secondary (index 1 & 2)
+  const sec1 = data[1];
+  const sec2 = data[2];
+  // Sidebar terkini (index 3-6)
+  const sidebar = data.slice(3, 7);
+
+  let html = '';
+
+  // MAIN HERO
+  html += `
+    <a href="berita.html?id=${main.id}" class="hero-main card-link">
+      <div class="card-img-wrap">
+        <div class="ph ph-main"></div>
+      </div>
+      <div class="card-body">
+        <span class="badge ${getBadgeClass(main.kategori)}">${main.kategori || 'Umum'}</span>
+        <h2 class="card-title hero-title">${main.judul}</h2>
+        <p class="card-excerpt">${(main.isi || '').substring(0, 120)}...</p>
+        <div class="card-meta">
+          <span class="card-author">${main.penulis || 'Admin'}</span>
+          <span class="meta-dot">·</span>
+          <span>${timeAgo(main.created_at)}</span>
+        </div>
+      </div>
+    </a>`;
+
+  // SECONDARY 1
+  if (sec1) {
+    html += `
+    <a href="berita.html?id=${sec1.id}" class="hero-secondary card-link">
+      <div class="card-img-wrap">
+        <div class="ph ph-secondary ph-b"></div>
+      </div>
+      <div class="card-body">
+        <span class="badge ${getBadgeClass(sec1.kategori)}">${sec1.kategori || 'Umum'}</span>
+        <h3 class="card-title">${sec1.judul}</h3>
+        <div class="card-meta" style="margin-top:8px">
+          <span class="card-author">${sec1.penulis || 'Admin'}</span>
+          <span class="meta-dot">·</span><span>${timeAgo(sec1.created_at)}</span>
+        </div>
+      </div>
+    </a>`;
+  }
+
+  // SECONDARY 2
+  if (sec2) {
+    html += `
+    <a href="berita.html?id=${sec2.id}" class="hero-secondary card-link">
+      <div class="card-img-wrap">
+        <div class="ph ph-secondary ph-c"></div>
+      </div>
+      <div class="card-body">
+        <span class="badge ${getBadgeClass(sec2.kategori)}">${sec2.kategori || 'Umum'}</span>
+        <h3 class="card-title">${sec2.judul}</h3>
+        <div class="card-meta" style="margin-top:8px">
+          <span class="card-author">${sec2.penulis || 'Admin'}</span>
+          <span class="meta-dot">·</span><span>${timeAgo(sec2.created_at)}</span>
+        </div>
+      </div>
+    </a>`;
+  }
+
+  // SIDEBAR TERKINI
+  if (sidebar.length > 0) {
+    html += `<div class="hero-sidebar"><div class="sidebar-title">Terkini</div>`;
+    sidebar.forEach(b => {
+      html += `
+      <a href="berita.html?id=${b.id}" class="sidebar-item card-link">
+        <div class="sidebar-thumb"><div class="ph" style="height:100%;background:#e8f0f8"></div></div>
+        <div class="sidebar-info">
+          <div class="sidebar-badge">${b.kategori || 'Umum'}</div>
+          <div class="sidebar-headline">${b.judul}</div>
+          <div class="sidebar-time">${timeAgo(b.created_at)}</div>
+        </div>
+      </a>`;
+    });
+    html += `</div>`;
+  }
+
+  heroGrid.innerHTML = html;
+}
+
+function renderBottomRow(data) {
+  const bottomRow = document.getElementById('bottomRow');
+  const items = data.slice(7, 11);
+  if (items.length === 0) return;
+
+  bottomRow.style.display = '';
+  bottomRow.innerHTML = items.map(b => `
+    <a href="berita.html?id=${b.id}" class="bottom-card card-link">
+      <div class="ph ph-small" style="background:#eef2f8"></div>
+      <div class="card-body">
+        <span class="badge ${getBadgeClass(b.kategori)}">${b.kategori || 'Umum'}</span>
+        <h3 class="card-title">${b.judul}</h3>
+        <p class="card-excerpt">${(b.isi || '').substring(0, 80)}...</p>
+        <div class="card-meta mt-10">
+          <span class="card-author">${b.penulis || 'Admin'}</span>
+          <span class="meta-dot">·</span><span>${timeAgo(b.created_at)}</span>
+        </div>
+      </div>
+    </a>`).join('');
+}
+
+function renderTrending(data) {
+  const specialGrid = document.getElementById('specialGrid');
+  const trendingList = document.getElementById('trendingList');
+  const items = data.slice(0, 5);
+  if (items.length === 0) return;
+
+  specialGrid.style.display = '';
+  trendingList.innerHTML = items.map((b, i) => `
+    <a href="berita.html?id=${b.id}" class="trending-item card-link">
+      <span class="trending-num">${i + 1}</span>
+      <div>
+        <div class="trending-badge">${b.kategori || 'Umum'}</div>
+        <div class="trending-headline">${b.judul}</div>
+        <div class="trending-time">${timeAgo(b.created_at)}</div>
+      </div>
+    </a>`).join('');
+}
+
+// Search
+function handleSearch(q) {
+  if (!q) return;
+  // bisa dikembangkan nanti
+}
+
+// INIT
+loadBerita();
+</script>
+
 </body>
 </html>
