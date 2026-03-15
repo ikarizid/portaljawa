@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Portal Jawa</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-login-page">
+
+  <div class="login-card">
+
+    <!-- LOGO -->
+    <div class="login-logo">
+      <img src="../assets/logo_utama.png" alt="Portal Jawa" style="height:80px;object-fit:contain;">
+    </div>
+
+    <span class="admin-badge-pill">⬤ &nbsp;Admin Panel</span>
+
+    <h1 class="login-title">Selamat Datang</h1>
+    <p class="login-sub">Masuk untuk mengelola konten Portal Jawa</p>
+
+    <div class="login-divider"></div>
+
+    <!-- ERROR -->
+    <div class="alert-box alert-error" id="errorBox" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span id="errorMsg">Username atau password salah.</span>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="alert-box alert-success" id="successBox" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>Login berhasil! Mengalihkan ke dashboard...</span>
+    </div>
+
+    <!-- FORM -->
+    <form id="loginForm" onsubmit="handleLogin(event)">
+
+      <div class="login-field">
+        <label class="login-label">Username</label>
+        <div class="input-wrap">
+          <span class="input-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/></svg>
+          </span>
+          <input class="login-input" type="text" id="username" placeholder="Masukkan username..." autocomplete="username">
+        </div>
+      </div>
+
+      <div class="login-field">
+        <label class="login-label">Password</label>
+        <div class="input-wrap">
+          <span class="input-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </span>
+          <input class="login-input" type="password" id="password" placeholder="Masukkan password..." autocomplete="current-password">
+          <button type="button" class="toggle-pw" id="togglePw" onclick="togglePassword()">
+            <svg id="eyeIcon" width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#aaa" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="#aaa" stroke-width="1.8"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="login-footer-row">
+        <label class="remember-me">
+          <input type="checkbox" id="rememberMe">
+          <span>Ingat saya</span>
+        </label>
+        <a href="#" class="forgot-link">Lupa password?</a>
+      </div>
+
+      <button type="submit" class="btn-login" id="loginBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Masuk ke Dashboard
+      </button>
+
+    </form>
+
+    <div class="login-security-note">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#aaa" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <p>Halaman ini tidak terdaftar dalam navigasi publik. Akses hanya untuk redaksi Portal Jawa yang berwenang.</p>
+    </div>
+
+  </div>
+
+  <p class="login-page-footer">© 2026 Portal Jawa &nbsp;·&nbsp; portaljawa.com/admin</p>
+
+</div>
+
+<script>
+// Kredensial demo — ganti dengan sistem backend nanti
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'portaljawa123';
+
+function togglePassword() {
+  const pw = document.getElementById('password');
+  pw.type = pw.type === 'password' ? 'text' : 'password';
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value;
+  const btn  = document.getElementById('loginBtn');
+  const err  = document.getElementById('errorBox');
+  const suc  = document.getElementById('successBox');
+
+  err.style.display = 'none';
+  suc.style.display = 'none';
+
+  if (!user || !pass) {
+    document.getElementById('errorMsg').textContent = 'Username dan password wajib diisi.';
+    err.style.display = 'flex'; return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Memverifikasi...';
+
+  setTimeout(() => {
+    if (user === ADMIN_USER && pass === ADMIN_PASS) {
+      suc.style.display = 'flex';
+      btn.textContent = '✓ Berhasil!';
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+    } else {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Masuk ke Dashboard';
+      document.getElementById('errorMsg').textContent = 'Username atau password salah.';
+      err.style.display = 'flex';
+      document.getElementById('password').value = '';
+    }
+  }, 1200);
+}
+</script>
+
+</body>
+</html>
