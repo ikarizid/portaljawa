@@ -15,20 +15,17 @@
   .kat-count { margin-left: auto; text-align: right; }
   .kat-count span { font-family: var(--serif); font-size: 36px; font-weight: 900; color: var(--red); display: block; line-height: 1; }
   .kat-count small { font-size: 11px; color: #555; letter-spacing: 1px; text-transform: uppercase; }
-
   .kat-layout { display: grid; grid-template-columns: 1fr 300px; gap: 28px; }
-
   .kat-filter { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
   .filter-btn { border: 1px solid var(--border); background: var(--white); color: var(--gray); font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; padding: 7px 14px; cursor: pointer; transition: all .2s; font-family: var(--sans); }
   .filter-btn:hover, .filter-btn.active { background: var(--black); color: #fff; border-color: var(--black); }
   .filter-label { font-size: 12px; color: var(--gray); font-weight: 600; }
-
   .news-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
-  .news-item { background: var(--white); display: grid; grid-template-columns: 160px 1fr; gap: 0; transition: opacity .2s; cursor: pointer; }
+  .news-item { background: var(--white); display: grid; grid-template-columns: 160px 1fr; gap: 0; transition: opacity .2s; }
   .news-item:hover { opacity: .88; }
   .news-thumb { height: 120px; overflow: hidden; }
-  .news-thumb div { width: 100%; height: 100%; transition: transform .4s; }
-  .news-item:hover .news-thumb div { transform: scale(1.05); }
+  .news-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .news-thumb-ph { width:100%; height:100%; background:#eef2f8; display:block; }
   .news-info { padding: 14px 18px; display: flex; flex-direction: column; justify-content: space-between; }
   .news-top { flex: 1; }
   .news-badge { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--red); font-family: var(--sans); margin-bottom: 6px; }
@@ -36,39 +33,36 @@
   .news-excerpt { font-size: 13px; color: #666; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .news-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--gray); margin-top: 10px; }
   .news-author { font-weight: 600; color: var(--red-dark); }
-
   .load-more { display: flex; justify-content: center; margin-top: 20px; }
   .btn-load { border: 1px solid var(--border); background: var(--white); color: var(--gray); font-size: 12px; font-weight: 600; padding: 11px 28px; cursor: pointer; transition: all .2s; font-family: var(--sans); letter-spacing: .5px; text-transform: uppercase; }
   .btn-load:hover { background: var(--black); color: #fff; border-color: var(--black); }
-
   .no-berita { padding: 40px; text-align: center; background: var(--white); }
   .no-berita p { font-family: var(--serif); font-size: 18px; color: var(--gray); }
-
-  /* SIDEBAR */
+  .loading-state { padding: 40px; text-align: center; background: var(--white); }
+  .spinner-sm { width:28px;height:28px;border:3px solid #eee;border-top-color:#c0392b;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px; }
+  @keyframes spin { to { transform:rotate(360deg); } }
   .kat-sidebar { display: flex; flex-direction: column; gap: 18px; }
   .widget { background: var(--white); border: 1px solid var(--border); }
   .widget-title { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #fff; background: var(--black); padding: 10px 14px; }
-  .widget-item { display: flex; gap: 10px; padding: 11px 14px; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: background .2s; }
+  .widget-item { display: flex; gap: 10px; padding: 11px 14px; border-bottom: 1px solid #f5f5f5; transition: background .2s; }
   .widget-item:last-child { border-bottom: none; }
   .widget-item:hover { background: #fafafa; }
-  .widget-thumb { width: 68px; height: 54px; flex-shrink: 0; }
+  .widget-thumb { width: 68px; height: 54px; flex-shrink: 0; background:#eef2f8; }
   .widget-badge { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--red); margin-bottom: 3px; }
   .widget-headline { font-family: var(--serif); font-size: 13px; font-weight: 700; color: var(--black); line-height: 1.35; }
   .widget-time { font-size: 10px; color: var(--gray); margin-top: 3px; }
-
   .kategori-widget { padding: 4px 0; }
-  .kat-link { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: background .2s; font-size: 13px; color: var(--black); font-weight: 500; }
+  .kat-link { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid #f5f5f5; transition: background .2s; font-size: 13px; color: var(--black); font-weight: 500; text-decoration: none; }
   .kat-link:last-child { border-bottom: none; }
   .kat-link:hover { background: #fafafa; color: var(--red); }
   .kat-link.current { color: var(--red); font-weight: 700; }
   .kat-link span { font-size: 11px; color: var(--gray); }
   .kat-link-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); margin-right: 8px; display: inline-block; opacity: 0; }
   .kat-link.current .kat-link-dot { opacity: 1; }
-
   .newsletter-widget { padding: 18px; }
   .nl-title { font-family: var(--serif); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
   .nl-sub { font-size: 12px; color: var(--gray); margin-bottom: 12px; line-height: 1.5; }
-  .nl-input { width: 100%; border: 1px solid var(--border); padding: 9px 12px; font-size: 13px; font-family: var(--sans); outline: none; margin-bottom: 8px; }
+  .nl-input { width: 100%; border: 1px solid var(--border); padding: 9px 12px; font-size: 13px; font-family: var(--sans); outline: none; margin-bottom: 8px; box-sizing: border-box; }
   .nl-input:focus { border-color: var(--red); }
   .nl-btn { width: 100%; background: var(--red); color: #fff; border: none; padding: 10px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-family: var(--sans); cursor: pointer; }
   .nl-btn:hover { background: var(--red-dark); }
@@ -76,7 +70,6 @@
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <div class="container topbar-inner">
     <span class="topbar-date" id="topbarDate"></span>
@@ -88,15 +81,14 @@
   </div>
 </div>
 
-<!-- HEADER -->
 <header class="site-header">
   <div class="container header-inner">
     <div class="logo-area">
       <a href="index.html"><img src="assets/logo_headline.png" alt="Portal Jawa" class="logo-img"></a>
     </div>
     <div class="header-search">
-      <input type="text" placeholder="Cari berita..." id="searchInput" onkeydown="if(event.key==='Enter') cariBerita()">
-      <button onclick="cariBerita()">
+      <input type="text" placeholder="Cari berita..." id="searchInput">
+      <button>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
@@ -115,11 +107,10 @@
   </nav>
 </header>
 
-<!-- KATEGORI HERO -->
 <div class="kat-hero">
   <div class="container kat-hero-inner">
     <div class="kat-icon" id="katIcon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
     </div>
     <div>
       <div class="kat-name" id="katName">Kategori</div>
@@ -132,82 +123,47 @@
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="container" style="padding-bottom:48px">
   <div class="kat-layout">
-
-    <!-- KONTEN -->
     <div>
-      <!-- FILTER -->
       <div class="kat-filter">
         <span class="filter-label">Urutkan:</span>
         <button class="filter-btn active" onclick="setFilter('terbaru',this)">Terbaru</button>
-        <button class="filter-btn" onclick="setFilter('terpopuler',this)">Terpopuler</button>
         <button class="filter-btn" onclick="setFilter('terlama',this)">Terlama</button>
       </div>
-
-      <!-- LIST BERITA -->
-      <div class="news-list" id="newsList"></div>
+      <div class="news-list" id="newsList">
+        <div class="loading-state">
+          <div class="spinner-sm"></div>
+          <p style="color:#999;font-size:13px">Memuat berita...</p>
+        </div>
+      </div>
       <div class="no-berita" id="noBerita" style="display:none">
         <p>Belum ada berita di kategori ini.</p>
       </div>
-
       <div class="load-more" id="loadMoreWrap" style="display:none">
         <button class="btn-load" onclick="loadMore()">Muat Lebih Banyak</button>
       </div>
     </div>
 
-    <!-- SIDEBAR -->
     <aside class="kat-sidebar">
-
-      <!-- KATEGORI LIST -->
       <div class="widget">
         <div class="widget-title">Semua Kategori</div>
         <div class="kategori-widget" id="katList"></div>
       </div>
-
-      <!-- BERITA TERPOPULER -->
       <div class="widget">
-        <div class="widget-title">Terpopuler</div>
-        <a href="berita.html" class="widget-item">
-          <div class="widget-thumb" style="background:#eef2f8"></div>
-          <div>
-            <div class="widget-badge">Politik</div>
-            <div class="widget-headline">KPU Umumkan Hasil Final Pilkada Jatim</div>
-            <div class="widget-time">2 jam lalu</div>
-          </div>
-        </a>
-        <a href="berita.html" class="widget-item">
-          <div class="widget-thumb" style="background:#eef8ee"></div>
-          <div>
-            <div class="widget-badge">Olahraga</div>
-            <div class="widget-headline">Persebaya Juara Liga 1 Musim 2026</div>
-            <div class="widget-time">5 jam lalu</div>
-          </div>
-        </a>
-        <a href="berita.html" class="widget-item">
-          <div class="widget-thumb" style="background:#f5eef8"></div>
-          <div>
-            <div class="widget-badge">Teknologi</div>
-            <div class="widget-headline">Startup Surabaya Jadi Unicorn Ketiga Jatim</div>
-            <div class="widget-time">6 jam lalu</div>
-          </div>
-        </a>
+        <div class="widget-title">Berita Terbaru</div>
+        <div id="sidebarTerbaru"></div>
       </div>
-
-      <!-- NEWSLETTER -->
       <div class="widget newsletter-widget">
         <div class="nl-title">Newsletter Harian</div>
         <p class="nl-sub">Dapatkan rangkuman berita terpenting langsung di inbox kamu setiap pagi.</p>
         <input type="email" placeholder="Email kamu..." class="nl-input" id="nlEmail">
         <button class="nl-btn" onclick="subscribe()">Daftar Sekarang</button>
       </div>
-
     </aside>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer class="site-footer">
   <div class="container footer-inner">
     <img src="assets/logo_headline.png" alt="Portal Jawa" class="footer-logo-img">
@@ -230,78 +186,40 @@
 
 <script src="assets/script.js"></script>
 <script>
-// =============================================
-// DATA BERITA PER KATEGORI
-// =============================================
-const semuaBerita = [
-  // POLITIK
-  { id:1, judul:'Pemilihan Kepala Daerah Serentak 2026: Rekap 38 Kabupaten Jatim', excerpt:'KPU Jawa Timur merilis hasil resmi yang mengejutkan, dengan sejumlah incumbent tumbang di daerah yang selama ini dianggap basis kuat mereka.', penulis:'Ahmad Fauzi', kat:'politik', warna:'#eef2f8', waktu:'2 jam lalu', baca:'8 mnt' },
-  { id:2, judul:'DPR Sahkan RUU Ketahanan Pangan dengan 312 Suara Setuju', excerpt:'Rancangan undang-undang yang telah diperdebatkan selama dua tahun akhirnya resmi disahkan dalam rapat paripurna DPR RI.', penulis:'Dewi Lestari', kat:'politik', warna:'#f0eef8', waktu:'4 jam lalu', baca:'5 mnt' },
-  { id:3, judul:'Gubernur Jatim Umumkan Kabinet Baru Pasca Pilkada 2026', excerpt:'Sejumlah nama baru masuk dalam susunan kabinet Pemprov Jawa Timur periode 2026–2031 yang diumumkan Gubernur terpilih.', penulis:'Budi Santoso', kat:'politik', warna:'#eef8f0', waktu:'6 jam lalu', baca:'6 mnt' },
-  { id:4, judul:'KPU Buka Pendaftaran Anggota Baru untuk Periode 2027', excerpt:'Komisi Pemilihan Umum membuka rekrutmen anggota baru di seluruh provinsi dengan kuota 240 posisi secara nasional.', penulis:'Siti Rahayu', kat:'politik', warna:'#f8f0ee', waktu:'8 jam lalu', baca:'4 mnt' },
-
-  // EKONOMI
-  { id:5, judul:'IHSG Melonjak 2,3% Didukung Sektor Manufaktur Jawa Tengah', excerpt:'Indeks Harga Saham Gabungan ditutup menguat signifikan dipicu optimisme investor terhadap data ekspor terbaru.', penulis:'Siti Rahayu', kat:'ekonomi', warna:'#eef8ee', waktu:'3 jam lalu', baca:'5 mnt' },
-  { id:6, judul:'Ekspor Batik Jawa Meningkat 34% di Kuartal Pertama 2026', excerpt:'Data Kementerian Perdagangan menunjukkan lonjakan permintaan batik dari pasar Eropa dan Amerika Utara sepanjang Januari–Maret.', penulis:'Budi Santoso', kat:'ekonomi', warna:'#f0f8ee', waktu:'8 jam lalu', baca:'4 mnt' },
-  { id:7, judul:'Bank Indonesia Pertahankan Suku Bunga Acuan di 5,75%', excerpt:'Rapat Dewan Gubernur Bank Indonesia memutuskan untuk mempertahankan BI Rate di level 5,75 persen demi menjaga stabilitas rupiah.', penulis:'Ahmad Fauzi', kat:'ekonomi', warna:'#eef0f8', waktu:'10 jam lalu', baca:'6 mnt' },
-  { id:8, judul:'Investasi Asing di Jawa Timur Capai Rekor Rp 87 Triliun', excerpt:'Badan Koordinasi Penanaman Modal mencatat realisasi investasi asing di Jawa Timur mencapai angka tertinggi sepanjang sejarah.', penulis:'Rina Wulandari', kat:'ekonomi', warna:'#f8eef0', waktu:'12 jam lalu', baca:'7 mnt' },
-
-  // OLAHRAGA
-  { id:9, judul:'Persebaya Surabaya Kalahkan Persija 3-1, Kembali ke Puncak', excerpt:'Tiga gol tanpa balas di babak pertama memastikan Persebaya kembali memuncaki klasemen Liga 1 musim 2025/2026.', penulis:'Rizky Pratama', kat:'olahraga', warna:'#fff8ee', waktu:'5 jam lalu', baca:'4 mnt' },
-  { id:10, judul:'Timnas U-20 Indonesia Lolos ke Semifinal Piala Asia', excerpt:'Skuad Garuda Muda mengalahkan Vietnam 2-0 di babak perempat final Piala Asia U-20 yang digelar di Uzbekistan.', penulis:'Nina Kartika', kat:'olahraga', warna:'#eef8ee', waktu:'7 jam lalu', baca:'5 mnt' },
-  { id:11, judul:'Atlet Judo Jatim Raih Medali Emas PON 2026 di Aceh', excerpt:'Prasetya Wibowo, atlet judo asal Surabaya, berhasil meraih medali emas di kelas 73kg pada Pekan Olahraga Nasional.', penulis:'Arif Hidayat', kat:'olahraga', warna:'#f0f8ee', waktu:'9 jam lalu', baca:'3 mnt' },
-
-  // HIBURAN & BUDAYA
-  { id:12, judul:'Dalang Muda Jombang Raih Penghargaan Internasional di Kyoto', excerpt:'Ki Bagas Wicaksono, 24 tahun, membawa pulang trofi emas dari kompetisi seni pertunjukan wayang kulit di Jepang.', penulis:'Nina Kartika', kat:'hiburan', warna:'#f8eef8', waktu:'7 jam lalu', baca:'5 mnt' },
-  { id:13, judul:'Festival Budaya Jawa 2026 Dihadiri 40.000 Pengunjung', excerpt:'Perayaan tahunan yang merayakan kekayaan seni dan budaya Jawa ini berlangsung meriah di Taman Mini Jawa Timur selama tiga hari.', penulis:'Dewi Lestari', kat:'hiburan', warna:'#f0eef8', waktu:'2 jam lalu', baca:'4 mnt' },
-  { id:14, judul:'Film "Tanah Jawa" Tembus 3 Juta Penonton dalam Sepekan', excerpt:'Produksi sinema lokal bertema sejarah Mataram ini menjadi film Indonesia dengan pembukaan terbaik sepanjang masa.', penulis:'Budi Santoso', kat:'hiburan', warna:'#f8f0ee', waktu:'11 jam lalu', baca:'4 mnt' },
-
-  // TEKNOLOGI
-  { id:15, judul:'Startup Asal Surabaya Raih Pendanaan Seri B Rp 450 Miliar', excerpt:'Platform logistik berbasis AI ini mendapat suntikan modal dari konsorsium investor Asia Tenggara untuk ekspansi ke Vietnam dan Thailand.', penulis:'Dewi Lestari', kat:'teknologi', warna:'#eef8f8', waktu:'30 mnt lalu', baca:'5 mnt' },
-  { id:16, judul:'Indonesia Luncurkan Satelit Komunikasi Generasi Terbaru', excerpt:'Badan Antariksa Nasional Indonesia berhasil meluncurkan satelit multifungsi yang akan memperkuat konektivitas di wilayah terpencil.', penulis:'Ahmad Fauzi', kat:'teknologi', warna:'#eef0f8', waktu:'6 jam lalu', baca:'6 mnt' },
-  { id:17, judul:'Universitas ITS Kembangkan Robot Pemadam Kebakaran Otonom', excerpt:'Tim mahasiswa Institut Teknologi Sepuluh Nopember menciptakan robot yang mampu mendeteksi dan memadamkan api secara mandiri.', penulis:'Rizky Pratama', kat:'teknologi', warna:'#f8f8ee', waktu:'9 jam lalu', baca:'5 mnt' },
-
-  // LOKAL
-  { id:18, judul:'Banjir Bandang Terjang Dua Kecamatan di Malang Selatan', excerpt:'Ratusan warga dievakuasi menyusul bencana banjir bandang yang melanda dua kecamatan di wilayah Malang Selatan akibat hujan deras.', penulis:'Arif Hidayat', kat:'lokal', warna:'#eef8f0', waktu:'1 jam lalu', baca:'4 mnt' },
-  { id:19, judul:'Pemkot Surabaya Resmikan 15 Taman Kota Baru di Wilayah Timur', excerpt:'Wali Kota meresmikan proyek ruang terbuka hijau senilai Rp 120 miliar yang menyasar kawasan padat penduduk di Surabaya Timur.', penulis:'Rina Wulandari', kat:'lokal', warna:'#f0f8f0', waktu:'9 jam lalu', baca:'3 mnt' },
-  { id:20, judul:'Temuan Arkeologi Baru di Trowulan Guncang Dunia Akademis', excerpt:'Para arkeolog menemukan kompleks candi dan artefak emas berusia lebih dari 600 tahun di kawasan Trowulan, Mojokerto.', penulis:'Siti Rahayu', kat:'lokal', warna:'#f8f0ee', waktu:'8 jam lalu', baca:'7 mnt' },
-
-  // OPINI
-  { id:21, judul:'Pilkada 2026 dan Ujian Kedewasaan Demokrasi Lokal di Jawa Timur', excerpt:'Fenomena tumbangnya banyak petahana dalam Pilkada kali ini memberi sinyal bahwa pemilih Jatim semakin kritis dan mandiri.', penulis:'Agus Widodo', kat:'opini', warna:'#eef2f8', waktu:'4 jam lalu', baca:'8 mnt' },
-  { id:22, judul:'Mengapa Pertumbuhan Ekonomi Jawa Tetap Solid di Tengah Ketidakpastian Global?', excerpt:'Diversifikasi sektor industri dan kuatnya konsumsi domestik menjadi dua pilar utama yang menopang ekonomi Jawa di tengah guncangan global.', penulis:'Sri Handayani', kat:'opini', warna:'#eef8ee', waktu:'6 jam lalu', baca:'9 mnt' },
-  { id:23, judul:'Revitalisasi Seni Tradisional: Antara Pelestarian dan Komodifikasi Budaya', excerpt:'Di era digital, seni tradisional Jawa menghadapi dilema: menjaga keaslian atau beradaptasi demi relevansi di tengah generasi muda.', penulis:'M. Rizal', kat:'opini', warna:'#f8eef0', waktu:'10 jam lalu', baca:'7 mnt' },
-];
+const API_URL = '/api/berita';
 
 const katConfig = {
-  politik:  { nama:'Politik',           desc:'Berita politik & pemerintahan terkini', warna:'#1a3a6b' },
-  ekonomi:  { nama:'Ekonomi & Bisnis',  desc:'Berita ekonomi, bisnis & keuangan',     warna:'#1a5a1a' },
-  olahraga: { nama:'Olahraga',          desc:'Berita olahraga & prestasi atlet',       warna:'#4a3a1a' },
-  hiburan:  { nama:'Hiburan & Budaya',  desc:'Berita hiburan, seni & budaya',          warna:'#6b1a4a' },
-  teknologi:{ nama:'Teknologi',         desc:'Berita teknologi & inovasi',             warna:'#1a4a4a' },
-  lokal:    { nama:'Lokal / Daerah',    desc:'Berita lokal dari seluruh Jawa',         warna:'#8b0000' },
-  opini:    { nama:'Opini & Analisis',  desc:'Kolom opini dan analisis mendalam',      warna:'#333'    },
+  politik:   { nama:'Politik',          desc:'Berita politik & pemerintahan terkini', dbKat:'Politik' },
+  ekonomi:   { nama:'Ekonomi & Bisnis', desc:'Berita ekonomi, bisnis & keuangan',     dbKat:'Ekonomi & Bisnis' },
+  olahraga:  { nama:'Olahraga',         desc:'Berita olahraga & prestasi atlet',       dbKat:'Olahraga' },
+  hiburan:   { nama:'Hiburan & Budaya', desc:'Berita hiburan, seni & budaya',          dbKat:'Hiburan & Budaya' },
+  teknologi: { nama:'Teknologi',        desc:'Berita teknologi & inovasi',             dbKat:'Teknologi' },
+  lokal:     { nama:'Lokal / Daerah',   desc:'Berita lokal dari seluruh Jawa',         dbKat:'Lokal / Daerah' },
+  opini:     { nama:'Opini & Analisis', desc:'Kolom opini dan analisis mendalam',      dbKat:'Opini' },
 };
 
-const katCount = {
-  politik:4, ekonomi:4, olahraga:3, hiburan:3, teknologi:3, lokal:3, opini:3
-};
-
-let currentKat = '';
+let currentKat = 'politik';
 let currentFilter = 'terbaru';
+let allBerita = [];
+let allData = [];
 let tampil = 5;
 
-// =============================================
-// INIT
-// =============================================
-function init() {
+function timeAgo(isoStr) {
+  if (!isoStr) return '';
+  const diff = Math.floor((Date.now() - new Date(isoStr)) / 60000);
+  if (diff < 1) return 'Baru saja';
+  if (diff < 60) return diff + ' mnt lalu';
+  if (diff < 1440) return Math.floor(diff/60) + ' jam lalu';
+  return Math.floor(diff/1440) + ' hari lalu';
+}
+
+async function init() {
   const params = new URLSearchParams(window.location.search);
   currentKat = params.get('kat') || 'politik';
 
-  // Set hero
-  const cfg = katConfig[currentKat] || { nama: currentKat, desc: 'Berita terkini', warna: '#C00000' };
+  const cfg = katConfig[currentKat] || { nama: currentKat, desc: 'Berita terkini', dbKat: currentKat };
   document.getElementById('katName').textContent = cfg.nama;
   document.getElementById('katDesc').textContent = cfg.desc;
-  document.getElementById('katIcon').style.background = cfg.warna;
   document.title = cfg.nama + ' — Portal Jawa';
 
   // Highlight nav
@@ -310,27 +228,60 @@ function init() {
   });
 
   renderKatList();
-  renderBerita();
+
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error('Gagal fetch');
+    allData = await res.json();
+
+    // Filter sesuai kategori
+    const dbKat = cfg.dbKat;
+    allBerita = allData.filter(b =>
+      (b.kategori || '').toLowerCase() === dbKat.toLowerCase()
+    );
+
+    renderBerita();
+    renderSidebar();
+    renderKatCount();
+
+  } catch(e) {
+    document.getElementById('newsList').innerHTML = `
+      <div class="no-berita"><p>Gagal memuat berita. Silakan refresh.</p></div>`;
+  }
+}
+
+function renderKatCount() {
+  // Hitung jumlah per kategori dari data real
+  const katListEl = document.getElementById('katList');
+  katListEl.innerHTML = Object.entries(katConfig).map(([k, v]) => {
+    const count = allData.filter(b =>
+      (b.kategori||'').toLowerCase() === v.dbKat.toLowerCase()
+    ).length;
+    return `
+    <a href="kategori.html?kat=${k}" class="kat-link ${k === currentKat ? 'current' : ''}">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="kat-link-dot"></span>${v.nama}
+      </div>
+      <span>${count}</span>
+    </a>`;
+  }).join('');
 }
 
 function renderKatList() {
+  // Render dulu dengan angka 0, nanti diupdate setelah data masuk
   const el = document.getElementById('katList');
   el.innerHTML = Object.entries(katConfig).map(([k, v]) => `
     <a href="kategori.html?kat=${k}" class="kat-link ${k === currentKat ? 'current' : ''}">
       <div style="display:flex;align-items:center;gap:6px">
         <span class="kat-link-dot"></span>${v.nama}
       </div>
-      <span>${katCount[k] || 0}</span>
-    </a>
-  `).join('');
+      <span>—</span>
+    </a>`).join('');
 }
 
 function renderBerita() {
-  let data = semuaBerita.filter(b => b.kat === currentKat);
-
-  // Filter
-  if (currentFilter === 'terpopuler') data = [...data].sort(() => Math.random() - .5);
-  else if (currentFilter === 'terlama') data = [...data].reverse();
+  let data = [...allBerita];
+  if (currentFilter === 'terlama') data = data.reverse();
 
   document.getElementById('katCount').textContent = data.length;
 
@@ -349,24 +300,41 @@ function renderBerita() {
   const shown = data.slice(0, tampil);
 
   list.innerHTML = shown.map(b => `
-    <a href="berita.html" class="news-item">
-      <div class="news-thumb"><div style="background:${b.warna}"></div></div>
+    <a href="berita.html?id=${b.id}" class="news-item" style="text-decoration:none">
+      <div class="news-thumb">
+        ${b.foto_url
+          ? `<img src="${b.foto_url}" alt="${b.judul}" onerror="this.parentNode.innerHTML='<div class=news-thumb-ph></div>'">`
+          : `<div class="news-thumb-ph"></div>`}
+      </div>
       <div class="news-info">
         <div class="news-top">
-          <div class="news-badge">${katConfig[b.kat]?.nama || b.kat}</div>
+          <div class="news-badge">${b.kategori || '—'}</div>
           <div class="news-title">${b.judul}</div>
-          <div class="news-excerpt">${b.excerpt}</div>
+          <div class="news-excerpt">${(b.isi || '').substring(0, 120)}...</div>
         </div>
         <div class="news-meta">
-          <span class="news-author">${b.penulis}</span>
-          <span>·</span><span>${b.waktu}</span>
-          <span>·</span><span>${b.baca} baca</span>
+          <span class="news-author">${b.penulis || 'Admin'}</span>
+          <span>·</span><span>${timeAgo(b.created_at)}</span>
         </div>
       </div>
-    </a>
-  `).join('');
+    </a>`).join('');
 
   lmw.style.display = data.length > tampil ? 'flex' : 'none';
+}
+
+function renderSidebar() {
+  const terbaru = allData.slice(0, 4);
+  document.getElementById('sidebarTerbaru').innerHTML = terbaru.map(b => `
+    <a href="berita.html?id=${b.id}" class="widget-item" style="text-decoration:none">
+      <div class="widget-thumb">
+        ${b.foto_url ? `<img src="${b.foto_url}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">` : ''}
+      </div>
+      <div>
+        <div class="widget-badge">${b.kategori || '—'}</div>
+        <div class="widget-headline">${b.judul}</div>
+        <div class="widget-time">${timeAgo(b.created_at)}</div>
+      </div>
+    </a>`).join('');
 }
 
 function setFilter(f, btn) {
@@ -380,11 +348,6 @@ function setFilter(f, btn) {
 function loadMore() {
   tampil += 5;
   renderBerita();
-}
-
-function cariBerita() {
-  const q = document.getElementById('searchInput').value.trim();
-  if (q) window.location.href = 'kategori.html?kat=' + currentKat + '&q=' + encodeURIComponent(q);
 }
 
 function subscribe() {
