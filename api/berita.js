@@ -14,16 +14,15 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   // GET — ambil semua berita
-  if (req.method === 'GET') {
-    const { data, error } = await supabase
-      .from('berita')
-      .select('*')
-      .eq('status', 'published')
-      .order('created_at', { ascending: false });
+ if (req.method === 'GET') {
+  const showAll = req.query.all === 'true';
+  let query = supabase.from('berita').select('*').order('created_at', { ascending: false });
+  if (!showAll) query = query.eq('status', 'published');
 
-    if (error) return res.status(500).json({ error: error.message });
-    return res.status(200).json(data);
-  }
+  const { data, error } = await query;
+  if (error) return res.status(500).json({ error: error.message });
+  return res.status(200).json(data);
+}
 
   // POST — tambah berita baru
   if (req.method === 'POST') {
