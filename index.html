@@ -182,12 +182,9 @@ function renderHero(data) {
   const heroGrid = document.getElementById('heroGrid');
   heroGrid.style.display = '';
 
-  // Berita utama (index 0)
   const main = data[0];
-  // Berita secondary (index 1 & 2)
   const sec1 = data[1];
   const sec2 = data[2];
-  // Sidebar terkini (index 3-6)
   const sidebar = data.slice(3, 7);
 
   let html = '';
@@ -196,7 +193,9 @@ function renderHero(data) {
   html += `
     <a href="berita.html?id=${main.id}" class="hero-main card-link">
       <div class="card-img-wrap">
-        <div class="ph ph-main"></div>
+        ${main.foto_url
+          ? `<img src="${main.foto_url}" alt="${main.judul}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='<div class=ph ph-main></div>'">`
+          : `<div class="ph ph-main"></div>`}
       </div>
       <div class="card-body">
         <span class="badge ${getBadgeClass(main.kategori)}">${main.kategori || 'Umum'}</span>
@@ -215,7 +214,9 @@ function renderHero(data) {
     html += `
     <a href="berita.html?id=${sec1.id}" class="hero-secondary card-link">
       <div class="card-img-wrap">
-        <div class="ph ph-secondary ph-b"></div>
+        ${sec1.foto_url
+          ? `<img src="${sec1.foto_url}" alt="${sec1.judul}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='<div class=ph ph-secondary ph-b></div>'">`
+          : `<div class="ph ph-secondary ph-b"></div>`}
       </div>
       <div class="card-body">
         <span class="badge ${getBadgeClass(sec1.kategori)}">${sec1.kategori || 'Umum'}</span>
@@ -233,7 +234,9 @@ function renderHero(data) {
     html += `
     <a href="berita.html?id=${sec2.id}" class="hero-secondary card-link">
       <div class="card-img-wrap">
-        <div class="ph ph-secondary ph-c"></div>
+        ${sec2.foto_url
+          ? `<img src="${sec2.foto_url}" alt="${sec2.judul}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='<div class=ph ph-secondary ph-c></div>'">`
+          : `<div class="ph ph-secondary ph-c"></div>`}
       </div>
       <div class="card-body">
         <span class="badge ${getBadgeClass(sec2.kategori)}">${sec2.kategori || 'Umum'}</span>
@@ -252,7 +255,11 @@ function renderHero(data) {
     sidebar.forEach(b => {
       html += `
       <a href="berita.html?id=${b.id}" class="sidebar-item card-link">
-        <div class="sidebar-thumb"><div class="ph" style="height:100%;background:#e8f0f8"></div></div>
+        <div class="sidebar-thumb">
+          ${b.foto_url
+            ? `<img src="${b.foto_url}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`
+            : `<div class="ph" style="height:100%;background:#e8f0f8"></div>`}
+        </div>
         <div class="sidebar-info">
           <div class="sidebar-badge">${b.kategori || 'Umum'}</div>
           <div class="sidebar-headline">${b.judul}</div>
@@ -274,7 +281,9 @@ function renderBottomRow(data) {
   bottomRow.style.display = '';
   bottomRow.innerHTML = items.map(b => `
     <a href="berita.html?id=${b.id}" class="bottom-card card-link">
-      <div class="ph ph-small" style="background:#eef2f8"></div>
+      ${b.foto_url
+        ? `<img src="${b.foto_url}" alt="${b.judul}" class="ph ph-small" style="object-fit:cover" onerror="this.outerHTML='<div class=ph ph-small style=background:#eef2f8></div>'">`
+        : `<div class="ph ph-small" style="background:#eef2f8"></div>`}
       <div class="card-body">
         <span class="badge ${getBadgeClass(b.kategori)}">${b.kategori || 'Umum'}</span>
         <h3 class="card-title">${b.judul}</h3>
