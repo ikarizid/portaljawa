@@ -259,15 +259,32 @@ function previewFoto(input) {
 async function uploadFotoToStorage(file) {
   if (!file) return null;
   document.getElementById('uploadProgress').style.display = 'block';
+
   try {
-    const formData = new FormData();
-    formData.append('file', file);
-    const res = await fetch(UPLOAD_URL, { method:'POST', body: formData });
-    if (!res.ok) throw new Error('Upload gagal');
-    const data = await res.json();
-    return data.url;
+    const SUPABASE_URL = 'https://trtjriudwgjyabqvwbtt.supabase.co'; // ganti dengan URL Supabase kamu
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydGpyaXVkd2dqeWFicXZ3YnR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MzU5ODYsImV4cCI6MjA4OTExMTk4Nn0._ygsO_LE_rFO7KZBbXTCr5haGsL7vSCwU7yis5ozsws'; // ganti dengan anon key kamu
+
+    const fileName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
+
+    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/foto-berita/${fileName}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': file.type,
+        'x-upsert': 'false'
+      },
+      body: file
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || 'Upload gagal');
+    }
+
+    return `${SUPABASE_URL}/storage/v1/object/public/foto-berita/${fileName}`;
+
   } catch(e) {
-    showToast('Upload foto gagal: '+e.message,'err');
+    showToast('Upload foto gagal: ' + e.message, 'err');
     return null;
   } finally {
     document.getElementById('uploadProgress').style.display = 'none';
