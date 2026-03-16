@@ -264,7 +264,7 @@ async function uploadFotoToStorage(file) {
    const SUPABASE_URL = 'https://trtjriudwgjyabqvwbtt.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_0llctfrHwJ6tAMcwcDfCvQ_WWouiB44';
 
-    const fileName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
+   const fileName = `${Date.now()}-${file.name.toLowerCase().replace(/[^a-z0-9.-]/g, '-')}`;
 
     const res = await fetch(`${SUPABASE_URL}/storage/v1/object/foto-berita/${fileName}`, {
       method: 'PUT',
