@@ -261,8 +261,8 @@ async function uploadFotoToStorage(file) {
   document.getElementById('uploadProgress').style.display = 'block';
 
   try {
-    const SUPABASE_URL = 'https://trtjriudwgjyabqvwbtt.supabase.co'; // ganti dengan URL Supabase kamu
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydGpyaXVkd2dqeWFicXZ3YnR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MzU5ODYsImV4cCI6MjA4OTExMTk4Nn0._ygsO_LE_rFO7KZBbXTCr5haGsL7vSCwU7yis5ozsws'; // ganti dengan anon key kamu
+   const SUPABASE_URL = 'https://trtjriudwgjyabqvwbtt.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_0llctfrHwJ6tAMcwcDfCvQ_WWouiB44';
 
     const fileName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
 
