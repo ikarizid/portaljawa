@@ -3,135 +3,344 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Login — Portal Jawa</title>
+<title>Dashboard Admin — Portal Jawa</title>
 <link rel="stylesheet" href="../assets/style.css">
+<style>
+  .loading-overlay { position:fixed;inset:0;background:rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:12px; }
+  .spinner { width:36px;height:36px;border:3px solid #eee;border-top-color:#c0392b;border-radius:50%;animation:spin .7s linear infinite; }
+  .loading-overlay.hidden { display:none; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .foto-preview-wrap { margin-top:10px;border-radius:8px;overflow:hidden;border:1px solid #eee;display:none; }
+  .foto-preview-wrap img { width:100%;max-height:280px;object-fit:cover;display:block; }
+  .foto-upload-progress { font-size:12px;color:#c0392b;margin-top:6px;display:none; }
+  .thumb-sm { width:48px;height:36px;border-radius:4px;object-fit:cover;display:block; }
+  .thumb-sm-ph { width:48px;height:36px;border-radius:4px;background:#eef2f8;display:block; }
+</style>
 </head>
-<body class="admin-body">
+<body class="admin-body dashboard-body">
 
-<div class="admin-login-page">
+<div class="loading-overlay hidden" id="loadingOverlay">
+  <div class="spinner"></div>
+  <span style="font-size:13px;color:#666" id="loadingMsg">Memuat...</span>
+</div>
 
-  <div class="login-card">
+<div class="dash-topbar">
+  <div class="dash-topbar-left">
+    <img src="/assets/logo_headline.png" alt="Portal Jawa" style="height:32px;object-fit:contain;filter:brightness(0)invert(1);">
+    <span class="admin-badge-pill" style="margin-left:10px">Admin Panel</span>
+  </div>
+  <div class="dash-topbar-right">
+    <div class="dash-user"><div class="dash-avatar">A</div><span>Admin</span></div>
+    <a href="index.html" class="dash-logout">Keluar</a>
+  </div>
+</div>
 
-    <!-- LOGO -->
-    <div class="login-logo">
-      <img src="/assets/logo_utama.png" alt="Portal Jawa" style="height:80px;object-fit:contain;">
+<div class="dash-layout">
+  <div class="dash-sidebar">
+    <div class="dash-menu-section">Menu Utama</div>
+    <a href="#" class="dash-menu-item active" onclick="showSection('dashboard',this);return false;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Dashboard
+    </a>
+    <a href="#" class="dash-menu-item" onclick="showSection('berita',this);return false;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Semua Berita <span class="menu-count" id="menuCount">0</span>
+    </a>
+    <a href="#" class="dash-menu-item" onclick="showSection('tambah',this);return false;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Tambah Berita
+    </a>
+    <div class="dash-menu-section">Konten</div>
+    <a href="#" class="dash-menu-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Kategori</a>
+    <a href="#" class="dash-menu-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M9 21V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Media &amp; Foto</a>
+    <div class="dash-menu-section">Sistem</div>
+    <a href="#" class="dash-menu-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>Pengaturan</a>
+    <div class="dash-sidebar-footer"><p>Portal Jawa Admin v1.0<br>© 2026 Redaksi</p></div>
+  </div>
+
+  <div class="dash-main">
+
+    <div id="sec-dashboard" class="dash-section active">
+      <div class="dash-page-header">
+        <div><h1 class="dash-page-title">Dashboard Redaksi</h1><p class="dash-page-sub" id="dashDate"></p></div>
+        <button class="btn-red" onclick="showSection('tambah',document.querySelectorAll('.dash-menu-item')[2]);return false;">+ Tulis Berita Baru</button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-label">Total Berita</div><div class="stat-value" id="statTotal">—</div><div class="stat-change up">Dari database</div></div>
+        <div class="stat-card"><div class="stat-label">Berita Tayang</div><div class="stat-value" id="statPublished">—</div><div class="stat-change up">Status published</div></div>
+        <div class="stat-card"><div class="stat-label">Draft Tersimpan</div><div class="stat-value" id="statDraft">—</div><div class="stat-change down">Belum dipublish</div></div>
+        <div class="stat-card"><div class="stat-label">Kategori Aktif</div><div class="stat-value">6</div><div class="stat-change up">Kategori tersedia</div></div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-head">
+          <span class="dash-card-title">Berita Terbaru</span>
+          <button class="btn-outline" onclick="showSection('berita',document.querySelectorAll('.dash-menu-item')[1]);return false;">Lihat Semua</button>
+        </div>
+        <table class="dash-table" id="dashTable"></table>
+      </div>
     </div>
 
-    <span class="admin-badge-pill">⬤ &nbsp;Admin Panel</span>
-
-    <h1 class="login-title">Selamat Datang</h1>
-    <p class="login-sub">Masuk untuk mengelola konten Portal Jawa</p>
-
-    <div class="login-divider"></div>
-
-    <!-- ERROR -->
-    <div class="alert-box alert-error" id="errorBox" style="display:none">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      <span id="errorMsg">Username atau password salah.</span>
+    <div id="sec-berita" class="dash-section">
+      <div class="dash-page-header">
+        <div><h1 class="dash-page-title">Semua Berita</h1><p class="dash-page-sub">Kelola seluruh artikel Portal Jawa</p></div>
+        <button class="btn-red" onclick="showSection('tambah',document.querySelectorAll('.dash-menu-item')[2]);return false;">+ Tulis Berita Baru</button>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-head">
+          <span class="dash-card-title">Daftar Berita</span>
+          <div style="display:flex;gap:8px">
+            <input type="text" class="dash-search" placeholder="Cari berita..." oninput="filterBerita(this.value)">
+            <select class="dash-select" onchange="filterKat(this.value)">
+              <option value="">Semua Kategori</option>
+              <option>Politik</option><option>Ekonomi &amp; Bisnis</option>
+              <option>Olahraga</option><option>Hiburan &amp; Budaya</option>
+              <option>Teknologi</option><option>Lokal / Daerah</option>
+            </select>
+          </div>
+        </div>
+        <table class="dash-table" id="fullTable"></table>
+        <div class="dash-pagination"><span class="pag-info" id="pagInfo">Memuat data...</span></div>
+      </div>
     </div>
 
-    <!-- SUCCESS -->
-    <div class="alert-box alert-success" id="successBox" style="display:none">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M8 12l3 3 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      <span>Login berhasil! Mengalihkan ke dashboard...</span>
-    </div>
-
-    <!-- FORM -->
-    <form id="loginForm" onsubmit="handleLogin(event)">
-
-      <div class="login-field">
-        <label class="login-label">Username</label>
-        <div class="input-wrap">
-          <span class="input-icon">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/></svg>
-          </span>
-          <input class="login-input" type="text" id="username" placeholder="Masukkan username..." autocomplete="username">
+    <div id="sec-tambah" class="dash-section">
+      <div class="dash-page-header">
+        <div><h1 class="dash-page-title">Tulis Berita Baru</h1><p class="dash-page-sub">Buat artikel untuk Portal Jawa</p></div>
+      </div>
+      <div class="dash-card" style="padding:24px">
+        <div class="form-field">
+          <label class="form-lbl">Judul Berita *</label>
+          <input type="text" class="form-ctrl" id="fJudul" placeholder="Tulis judul berita di sini...">
+        </div>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label class="form-lbl">Kategori *</label>
+            <select class="form-ctrl" id="fKategori">
+              <option value="">-- Pilih Kategori --</option>
+              <option>Politik</option><option>Ekonomi &amp; Bisnis</option>
+              <option>Olahraga</option><option>Hiburan &amp; Budaya</option>
+              <option>Teknologi</option><option>Lokal / Daerah</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-lbl">Nama Penulis *</label>
+            <input type="text" class="form-ctrl" id="fPenulis" placeholder="Nama penulis...">
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-lbl">Lead / Paragraf Pembuka *</label>
+          <textarea class="form-ctrl form-textarea" id="fIsi" placeholder="Tulis paragraf pembuka berita (lead)..."></textarea>
+        </div>
+        <div class="form-field">
+          <label class="form-lbl">Isi Berita Lengkap</label>
+          <textarea class="form-ctrl form-textarea" id="fIsiLengkap" style="min-height:200px" placeholder="Tulis isi berita selengkapnya di sini..."></textarea>
+        </div>
+        <div class="form-field">
+          <label class="form-lbl">Upload Foto Utama</label>
+          <input type="file" class="form-ctrl" id="fFoto" accept="image/*" onchange="previewFoto(this)">
+          <small style="color:#aaa;font-size:11px;margin-top:4px;display:block">Format: JPG, PNG, WebP. Ukuran maks: 5MB</small>
+          <div class="foto-preview-wrap" id="fotoPreviewWrap">
+            <img id="fotoPreview" src="" alt="Preview">
+          </div>
+          <div class="foto-upload-progress" id="uploadProgress">⏳ Mengupload foto...</div>
+        </div>
+        <div class="form-btns">
+          <button class="btn-red" onclick="submitBerita('published')">✓ Publish Sekarang</button>
+          <button class="btn-outline" onclick="submitBerita('draft')">Simpan Draft</button>
+          <button class="btn-ghost" onclick="resetForm()">Reset</button>
         </div>
       </div>
-
-      <div class="login-field">
-        <label class="login-label">Password</label>
-        <div class="input-wrap">
-          <span class="input-icon">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          </span>
-          <input class="login-input" type="password" id="password" placeholder="Masukkan password..." autocomplete="current-password">
-          <button type="button" class="toggle-pw" id="togglePw" onclick="togglePassword()">
-            <svg id="eyeIcon" width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#aaa" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="#aaa" stroke-width="1.8"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="login-footer-row">
-        <label class="remember-me">
-          <input type="checkbox" id="rememberMe">
-          <span>Ingat saya</span>
-        </label>
-        <a href="#" class="forgot-link">Lupa password?</a>
-      </div>
-
-      <button type="submit" class="btn-login" id="loginBtn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Masuk ke Dashboard
-      </button>
-
-    </form>
-
-    <div class="login-security-note">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#aaa" stroke-width="1.8" stroke-linecap="round"/></svg>
-      <p>Halaman ini tidak terdaftar dalam navigasi publik. Akses hanya untuk redaksi Portal Jawa yang berwenang.</p>
     </div>
 
   </div>
-
-  <p class="login-page-footer">© 2026 Portal Jawa &nbsp;·&nbsp; portaljawa.com/admin</p>
-
 </div>
 
+<div class="dash-toast" id="toast"></div>
+
 <script>
-// Kredensial demo — ganti dengan sistem backend nanti
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'portaljawa123';
+const API_URL = '/api/berita';
+const SUPABASE_URL = 'https://trtjriudwgjyabqvwbtt.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydGpyaXVkd2dqeWFicXZ3YnR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MzU5ODYsImV4cCI6MjA4OTExMTk4Nn0._ygsO_LE_rFO7KZBbXTCr5haGsL7vSCwU7yis5ozsws';
 
-function togglePassword() {
-  const pw = document.getElementById('password');
-  pw.type = pw.type === 'password' ? 'text' : 'password';
+let beritaList = [], filteredList = [];
+const badgeClass = {'Politik':'dp','Ekonomi & Bisnis':'de','Olahraga':'do','Hiburan & Budaya':'dh','Teknologi':'dt','Lokal / Daerah':'dl'};
+
+async function fetchBerita() {
+  showLoading(true, 'Memuat berita...');
+  try {
+    const res = await fetch(API_URL + '?all=true');
+    if (!res.ok) throw new Error('Gagal');
+    beritaList = await res.json();
+    filteredList = [...beritaList];
+    updateStats(); renderTables();
+  } catch(e) {
+    showToast('Gagal memuat: ' + e.message, 'err');
+  } finally { showLoading(false); }
 }
 
-function handleLogin(e) {
-  e.preventDefault();
-  const user = document.getElementById('username').value.trim();
-  const pass = document.getElementById('password').value;
-  const btn  = document.getElementById('loginBtn');
-  const err  = document.getElementById('errorBox');
-  const suc  = document.getElementById('successBox');
+function updateStats() {
+  document.getElementById('statTotal').textContent = beritaList.length;
+  document.getElementById('statPublished').textContent = beritaList.filter(b=>b.status==='published').length;
+  document.getElementById('statDraft').textContent = beritaList.filter(b=>b.status==='draft').length;
+  document.getElementById('menuCount').textContent = beritaList.length;
+  document.getElementById('pagInfo').textContent = `Menampilkan ${filteredList.length} dari ${beritaList.length} berita`;
+}
 
-  err.style.display = 'none';
-  suc.style.display = 'none';
+function formatTgl(s) {
+  if (!s) return '—';
+  return new Date(s).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+}
 
-  if (!user || !pass) {
-    document.getElementById('errorMsg').textContent = 'Username dan password wajib diisi.';
-    err.style.display = 'flex'; return;
+function tableRows(data, limit) {
+  const rows = limit ? data.slice(0,limit) : data;
+  if (!rows.length) return `<thead><tr><th>Foto</th><th>#</th><th>Judul</th><th>Kategori</th><th>Status</th><th>Tanggal</th><th>Aksi</th></tr></thead><tbody><tr><td colspan="7" style="text-align:center;padding:30px;color:#999">Belum ada berita.</td></tr></tbody>`;
+  return `<thead><tr><th>Foto</th><th>#</th><th>Judul</th><th>Kategori</th><th>Status</th><th>Tanggal</th><th>Aksi</th></tr></thead><tbody>
+  ${rows.map((b,i)=>`<tr id="tr-${b.id}">
+    <td>${b.foto_url?`<img src="${b.foto_url}" class="thumb-sm" onerror="this.style.display='none'">`:`<span class="thumb-sm-ph"></span>`}</td>
+    <td class="td-num">${String(i+1).padStart(2,'0')}</td>
+    <td class="td-judul"><strong>${b.judul}</strong><small>${b.penulis||'—'}</small></td>
+    <td><span class="dbadge ${badgeClass[b.kategori]||'dl'}">${b.kategori||'—'}</span></td>
+    <td><span class="dstatus ${b.status==='published'?'dpub':'ddraft'}">${b.status==='published'?'Tayang':'Draft'}</span></td>
+    <td class="td-date">${formatTgl(b.created_at)}</td>
+    <td><div class="action-row"><button class="act del" onclick="hapus('${b.id}')">Hapus</button></div></td>
+  </tr>`).join('')}</tbody>`;
+}
+
+function renderTables() {
+  document.getElementById('dashTable').innerHTML = tableRows(beritaList,5);
+  document.getElementById('fullTable').innerHTML = tableRows(filteredList);
+  document.getElementById('pagInfo').textContent = `Menampilkan ${filteredList.length} dari ${beritaList.length} berita`;
+}
+
+function filterBerita(q) {
+  filteredList = beritaList.filter(b=>b.judul.toLowerCase().includes(q.toLowerCase())||(b.penulis||'').toLowerCase().includes(q.toLowerCase()));
+  renderTables();
+}
+function filterKat(kat) { filteredList = kat ? beritaList.filter(b=>b.kategori===kat) : [...beritaList]; renderTables(); }
+
+async function hapus(id) {
+  if (!confirm('Yakin hapus berita ini?')) return;
+  const row = document.getElementById('tr-'+id);
+  if (row) row.style.opacity = '0.4';
+  try {
+    const res = await fetch(API_URL+'?id='+id, {method:'DELETE'});
+    if (!res.ok) throw new Error('Gagal');
+    showToast('Berita dihapus','err');
+    await fetchBerita();
+  } catch(e) {
+    if (row) row.style.opacity='1';
+    showToast('Gagal hapus: '+e.message,'err');
   }
-
-  btn.disabled = true;
-  btn.textContent = 'Memverifikasi...';
-
-  setTimeout(() => {
-    if (user === ADMIN_USER && pass === ADMIN_PASS) {
-      suc.style.display = 'flex';
-      btn.textContent = '✓ Berhasil!';
-      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
-    } else {
-      btn.disabled = false;
-      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Masuk ke Dashboard';
-      document.getElementById('errorMsg').textContent = 'Username atau password salah.';
-      err.style.display = 'flex';
-      document.getElementById('password').value = '';
-    }
-  }, 1200);
 }
-</script>
 
+function previewFoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('fotoPreview').src = e.target.result;
+    document.getElementById('fotoPreviewWrap').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function uploadFotoToStorage(file) {
+  if (!file) return null;
+  document.getElementById('uploadProgress').style.display = 'block';
+  try {
+    const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '-')}`;
+    const uploadUrl = `${SUPABASE_URL}/storage/v1/object/foto-berita/${fileName}`;
+
+    console.log('Uploading:', fileName, 'type:', file.type, 'size:', file.size);
+
+    const res = await fetch(uploadUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': file.type,
+        'x-upsert': 'true'
+      },
+      body: file
+    });
+
+    const resText = await res.text();
+    console.log('Upload status:', res.status, 'body:', resText);
+
+    if (!res.ok) throw new Error(`Status ${res.status}: ${resText}`);
+
+    const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/foto-berita/${fileName}`;
+    console.log('Success! URL:', publicUrl);
+    return publicUrl;
+
+  } catch(e) {
+    console.error('Upload error:', e);
+    showToast('Upload gagal: ' + e.message, 'err');
+    return null;
+  } finally {
+    document.getElementById('uploadProgress').style.display = 'none';
+  }
+}
+
+async function submitBerita(status) {
+  const judul    = document.getElementById('fJudul').value.trim();
+  const kategori = document.getElementById('fKategori').value;
+  const penulis  = document.getElementById('fPenulis').value.trim() || 'Admin';
+  const isi      = document.getElementById('fIsi').value.trim();
+  const isiLengkap = document.getElementById('fIsiLengkap').value.trim();
+  const fotoFile = document.getElementById('fFoto').files[0];
+
+  if (!judul)    { showToast('Judul wajib diisi!','err'); return; }
+  if (!kategori) { showToast('Pilih kategori dulu!','err'); return; }
+
+  showLoading(true, status==='published'?'Mempublish...':'Menyimpan draft...');
+
+  let foto_url = null;
+  if (fotoFile) foto_url = await uploadFotoToStorage(fotoFile);
+
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ judul, kategori, penulis, isi: isi+(isiLengkap?'\n\n'+isiLengkap:''), status, foto_url })
+    });
+    if (!res.ok) { const e=await res.json(); throw new Error(e.error||'Gagal'); }
+    showToast(status==='published'?'✓ Berhasil dipublish!':'Draft tersimpan','ok');
+    resetForm();
+    await fetchBerita();
+    showSection('berita', document.querySelectorAll('.dash-menu-item')[1]);
+  } catch(e) {
+    showToast('Gagal: '+e.message,'err');
+  } finally { showLoading(false); }
+}
+
+function resetForm() {
+  ['fJudul','fKategori','fPenulis','fIsi','fIsiLengkap'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('fFoto').value='';
+  document.getElementById('fotoPreviewWrap').style.display='none';
+}
+
+function showSection(name, menuEl) {
+  document.querySelectorAll('.dash-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.dash-menu-item').forEach(m=>m.classList.remove('active'));
+  const sec=document.getElementById('sec-'+name);
+  if(sec) sec.classList.add('active');
+  if(menuEl) menuEl.classList.add('active');
+}
+
+function showToast(msg,type) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='dash-toast show '+(type==='ok'?'tok':'terr');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.className='dash-toast',2800);
+}
+
+function showLoading(show,msg='Memuat...') {
+  document.getElementById('loadingOverlay').classList.toggle('hidden',!show);
+  document.getElementById('loadingMsg').textContent=msg;
+}
+
+const dd=document.getElementById('dashDate');
+if(dd) dd.textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' — Selamat datang, Admin!';
+fetchBerita();
+</script>
 </body>
 </html>
