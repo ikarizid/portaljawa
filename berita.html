@@ -3,12 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pilkada Jatim 2026 — Portal Jawa</title>
+<title>Berita — Portal Jawa</title>
 <link rel="stylesheet" href="assets/style.css">
+<style>
+  .loading-article { text-align:center; padding:80px 0; }
+  .spinner { width:36px;height:36px;border:3px solid #eee;border-top-color:#c0392b;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .error-article { text-align:center; padding:80px 0; }
+  .error-article h2 { font-family:var(--serif); font-size:24px; color:var(--black); margin-bottom:10px; }
+  .error-article p { color:var(--gray); margin-bottom:20px; }
+  .article-hero-img img { width:100%; max-height:460px; object-fit:cover; display:block; border-radius:2px; }
+  .article-body p { font-size:16px; line-height:1.9; color:#333; margin-bottom:18px; }
+  .article-body h2 { font-family:var(--serif); font-size:22px; font-weight:800; color:var(--black); margin:28px 0 12px; }
+</style>
 </head>
 <body>
 
-<!-- TOP BAR -->
+<!-- TOPBAR -->
 <div class="topbar">
   <div class="container topbar-inner">
     <span class="topbar-date" id="topbarDate"></span>
@@ -34,10 +45,10 @@
     </div>
   </div>
   <nav class="main-nav">
-    <div class="container nav-inner">
+    <div class="container nav-inner" id="mainNav">
       <a href="index.html">Beranda</a>
-      <a href="#" class="active">Politik</a>
       <a href="kategori.html?kat=lokal">Lokal</a>
+      <a href="kategori.html?kat=politik">Politik</a>
       <a href="kategori.html?kat=ekonomi">Ekonomi</a>
       <a href="kategori.html?kat=olahraga">Olahraga</a>
       <a href="kategori.html?kat=hiburan">Hiburan &amp; Budaya</a>
@@ -48,37 +59,49 @@
 </header>
 
 <!-- BREADCRUMB -->
-<div class="breadcrumb-bar">
+<div class="breadcrumb-bar" id="breadcrumbBar" style="display:none">
   <div class="container">
     <a href="index.html">Beranda</a>
     <span>›</span>
-    <a href="#">Politik</a>
+    <a href="#" id="bcKat">Kategori</a>
     <span>›</span>
-    <span class="bc-current">Pilkada Jatim 2026</span>
+    <span class="bc-current" id="bcJudul">Berita</span>
   </div>
 </div>
 
 <!-- CONTENT -->
 <div class="container article-layout">
 
-  <!-- ARTICLE -->
-  <article class="article-main">
+  <!-- LOADING STATE -->
+  <div id="loadingState" class="loading-article" style="grid-column:1/-1">
+    <div class="spinner"></div>
+    <p style="color:#999">Memuat berita...</p>
+  </div>
+
+  <!-- ERROR STATE -->
+  <div id="errorState" class="error-article" style="display:none;grid-column:1/-1">
+    <h2>Berita tidak ditemukan</h2>
+    <p>Berita yang kamu cari tidak ada atau sudah dihapus.</p>
+    <a href="index.html" class="btn-red" style="display:inline-block;padding:10px 24px;background:#c0392b;color:#fff;text-decoration:none;font-size:13px;font-weight:600">← Kembali ke Beranda</a>
+  </div>
+
+  <!-- ARTICLE (hidden until loaded) -->
+  <article class="article-main" id="articleMain" style="display:none">
     <div class="article-header">
-      <span class="badge badge-politik">Politik</span>
-      <h1 class="article-title">Pemilihan Kepala Daerah Serentak 2026 di Jawa: Rekap Lengkap Hasil Penghitungan Suara 38 Kabupaten</h1>
-      <p class="article-deck">KPU Jawa Timur merilis hasil resmi yang mengejutkan, dengan sejumlah incumbent tumbang di daerah yang selama ini dianggap basis kuat mereka.</p>
+      <span class="badge" id="artBadge"></span>
+      <h1 class="article-title" id="artJudul"></h1>
+      <p class="article-deck" id="artDeck"></p>
       <div class="article-meta-bar">
         <div class="author-block">
-          <div class="author-avatar">AF</div>
+          <div class="author-avatar" id="artAvatar">A</div>
           <div>
-            <div class="author-name">Ahmad Fauzi</div>
-            <div class="author-role">Koresponden Politik &amp; Pemerintahan</div>
+            <div class="author-name" id="artPenulis"></div>
+            <div class="author-role">Redaksi Portal Jawa</div>
           </div>
         </div>
         <div class="meta-right">
           <div class="meta-dates">
-            <div id="articleDate"></div>
-            <div>8 menit baca · 4.2rb dibaca</div>
+            <div id="artTanggal"></div>
           </div>
           <div class="share-btns">
             <button class="share-btn" title="Bagikan" onclick="shareArticle()">
@@ -93,96 +116,23 @@
     </div>
 
     <!-- HERO IMAGE -->
-    <div class="article-hero-img">
-      <div class="ph" style="width:100%;height:400px;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)"></div>
-      <p class="img-caption">Suasana penghitungan suara di salah satu TPS Surabaya, Kamis (12/3/2026). Foto: Portal Jawa / Rudi Hartono</p>
-    </div>
+    <div class="article-hero-img" id="artHeroImg"></div>
 
     <!-- BODY -->
-    <div class="article-body">
-      <p>Komisi Pemilihan Umum (KPU) Jawa Timur secara resmi mengumumkan hasil penghitungan suara Pemilihan Kepala Daerah (Pilkada) serentak 2026 pada Jumat malam (13/3). Dari 38 kabupaten dan kota yang menggelar pilkada, sebanyak 12 daerah mencatatkan kemenangan bagi penantang atas incumbent yang sedang menjabat.</p>
-      <p>Hasil ini terbilang mengejutkan mengingat para calon petahana umumnya memiliki keunggulan sumber daya dan jaringan yang lebih kuat. Pengamat politik dari Universitas Airlangga, Dr. Bambang Setiawan, menyebut fenomena ini sebagai sinyal penting dari pemilih Jawa Timur.</p>
-
-      <blockquote class="pullquote">
-        <p>"Pemilih semakin kritis dan tidak lagi terikat pada figur petahana semata. Mereka menilai rekam jejak dan program kerja secara lebih rasional."</p>
-        <cite>— Dr. Bambang Setiawan, Pengamat Politik Universitas Airlangga</cite>
-      </blockquote>
-
-      <h2>Daerah Paling Banyak Disorot</h2>
-      <p>Beberapa daerah mencuri perhatian publik dalam Pilkada kali ini. Di Kabupaten Sidoarjo, pasangan calon nomor urut 2 berhasil mengungguli petahana dengan selisih suara mencapai 8,4 persen. Sementara di Kota Malang, pasangan calon baru meraih kemenangan telak dengan perolehan 54,7 persen suara.</p>
-
-      <div class="info-box">
-        <div class="info-box-title">Fakta Cepat Pilkada Jatim 2026</div>
-        <ul>
-          <li>Total 38 kabupaten/kota menggelar pilkada serentak</li>
-          <li>Tingkat partisipasi pemilih rata-rata 71,3% — tertinggi dalam sejarah pilkada Jatim</li>
-          <li>12 incumbent tumbang, 26 petahana berhasil mempertahankan jabatan</li>
-          <li>Daerah dengan persaingan terketat: Kabupaten Jember (selisih 0,8%)</li>
-          <li>Penghitungan resmi selesai pukul 22.45 WIB, Kamis (13/3)</li>
-        </ul>
-      </div>
-
-      <h2>Respons Para Kandidat</h2>
-      <p>Para pemenang pilkada menyatakan siap segera bekerja usai masa transisi selesai. Sebaliknya, sejumlah kandidat yang kalah mengindikasikan akan menempuh jalur hukum melalui Mahkamah Konstitusi jika menemukan indikasi pelanggaran dalam proses pemungutan suara.</p>
-      <p>KPU Jawa Timur memastikan seluruh proses berjalan sesuai regulasi dan mengundang semua pihak untuk menyampaikan keberatan melalui mekanisme resmi yang telah disediakan undang-undang.</p>
-
-      <div class="article-tags">
-        <span class="tag">Pilkada 2026</span>
-        <span class="tag">Jawa Timur</span>
-        <span class="tag">KPU</span>
-        <span class="tag">Pemilu</span>
-        <span class="tag">Politik Lokal</span>
-      </div>
-    </div>
+    <div class="article-body" id="artBody"></div>
 
     <!-- RELATED -->
-    <div class="related-section">
+    <div class="related-section" id="relatedSection" style="display:none">
       <div class="related-title">Baca Juga</div>
-      <div class="related-grid">
-        <a href="berita.html" class="related-card card-link">
-          <div class="ph" style="height:110px;background:#eef2f8"></div>
-          <div class="related-badge">Politik</div>
-          <div class="related-headline">Rekap Dana Kampanye Pilkada Jatim: Siapa Paling Boros?</div>
-          <div class="related-meta">2 jam lalu · 5 mnt baca</div>
-        </a>
-        <a href="berita.html" class="related-card card-link">
-          <div class="ph" style="height:110px;background:#eef8ee"></div>
-          <div class="related-badge">Analisis</div>
-          <div class="related-headline">Mengapa Generasi Z Menjadi Penentu Kemenangan di 7 Daerah Pilkada?</div>
-          <div class="related-meta">5 jam lalu · 7 mnt baca</div>
-        </a>
-      </div>
+      <div class="related-grid" id="relatedGrid"></div>
     </div>
   </article>
 
   <!-- SIDEBAR -->
-  <aside class="article-sidebar">
+  <aside class="article-sidebar" id="articleSidebar" style="display:none">
     <div class="widget">
       <div class="widget-title">Berita Terkini</div>
-      <a href="berita.html" class="widget-item card-link">
-        <div class="widget-thumb" style="background:#eef2f8"></div>
-        <div>
-          <div class="widget-badge">Ekonomi</div>
-          <div class="widget-headline">IHSG Melonjak 2,3% Didukung Sektor Manufaktur</div>
-          <div class="widget-time">3 jam lalu</div>
-        </div>
-      </a>
-      <a href="berita.html" class="widget-item card-link">
-        <div class="widget-thumb" style="background:#eef8ee"></div>
-        <div>
-          <div class="widget-badge">Olahraga</div>
-          <div class="widget-headline">Persebaya Kalahkan Persija 3-1, Kembali ke Puncak</div>
-          <div class="widget-time">5 jam lalu</div>
-        </div>
-      </a>
-      <a href="berita.html" class="widget-item card-link">
-        <div class="widget-thumb" style="background:#f5eef8"></div>
-        <div>
-          <div class="widget-badge">Teknologi</div>
-          <div class="widget-headline">Startup Surabaya Raih Pendanaan Seri B Rp 450 M</div>
-          <div class="widget-time">30 mnt lalu</div>
-        </div>
-      </a>
+      <div id="sidebarList"></div>
     </div>
 
     <div class="widget newsletter-widget">
@@ -205,15 +155,181 @@
     <img src="assets/logo_headline.png" alt="Portal Jawa" class="footer-logo-img">
     <div class="footer-tagline">Denyut Informasi Tanah Jawa</div>
     <div class="footer-links">
-      <a href="index.html">Beranda</a><a href="#">Politik</a><a href="kategori.html?kat=ekonomi">Ekonomi</a>
-      <a href="kategori.html?kat=olahraga">Olahraga</a><a href="kategori.html?kat=teknologi">Teknologi</a><a href="#">Hiburan</a>
-      <a href="kategori.html?kat=lokal">Lokal</a><a href="kategori.html?kat=opini">Opini</a><a href="#">Tentang Kami</a>
-      <a href="#">Kebijakan Privasi</a>
+      <a href="index.html">Beranda</a><a href="kategori.html?kat=politik">Politik</a>
+      <a href="kategori.html?kat=ekonomi">Ekonomi</a><a href="kategori.html?kat=olahraga">Olahraga</a>
+      <a href="kategori.html?kat=teknologi">Teknologi</a><a href="#">Hiburan</a>
+      <a href="kategori.html?kat=lokal">Lokal</a><a href="kategori.html?kat=opini">Opini</a>
+      <a href="#">Tentang Kami</a><a href="#">Kebijakan Privasi</a>
     </div>
     <div class="footer-copy">© 2026 Portal Jawa. Seluruh hak cipta dilindungi. | Terdaftar di Dewan Pers Indonesia</div>
   </div>
 </footer>
 
 <script src="assets/script.js"></script>
+<script>
+const API_URL = '/api/berita';
+
+const katSlug = {
+  'Politik': 'politik', 'Ekonomi & Bisnis': 'ekonomi', 'Olahraga': 'olahraga',
+  'Hiburan & Budaya': 'hiburan', 'Teknologi': 'teknologi', 'Lokal / Daerah': 'lokal', 'Opini': 'opini'
+};
+
+const badgeClass = {
+  'Politik':'badge-politik','Ekonomi & Bisnis':'badge-ekonomi','Olahraga':'badge-olahraga',
+  'Hiburan & Budaya':'badge-hiburan','Teknologi':'badge-teknologi'
+};
+
+function timeAgo(isoStr) {
+  if (!isoStr) return '';
+  const diff = Math.floor((Date.now() - new Date(isoStr)) / 60000);
+  if (diff < 1) return 'Baru saja';
+  if (diff < 60) return diff + ' mnt lalu';
+  if (diff < 1440) return Math.floor(diff/60) + ' jam lalu';
+  return Math.floor(diff/1440) + ' hari lalu';
+}
+
+function formatTgl(isoStr) {
+  if (!isoStr) return '';
+  return new Date(isoStr).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+}
+
+function isiKeParagraf(isi) {
+  if (!isi) return '<p>Tidak ada konten.</p>';
+  return isi.split('\n').filter(p => p.trim()).map(p => `<p>${p}</p>`).join('');
+}
+
+async function loadBerita() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+
+  if (!id) {
+    showError();
+    return;
+  }
+
+  try {
+    // Fetch semua berita lalu cari by ID
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error('Gagal fetch');
+    const allData = await res.json();
+
+    const berita = allData.find(b => b.id === id);
+    if (!berita) {
+      showError();
+      return;
+    }
+
+    renderBerita(berita, allData);
+  } catch(e) {
+    showError();
+  }
+}
+
+function renderBerita(b, allData) {
+  // Set title
+  document.title = b.judul + ' — Portal Jawa';
+
+  // Breadcrumb
+  const kat = b.kategori || '';
+  const slug = katSlug[kat] || 'lokal';
+  document.getElementById('bcKat').textContent = kat;
+  document.getElementById('bcKat').href = `kategori.html?kat=${slug}`;
+  document.getElementById('bcJudul').textContent = b.judul.substring(0, 40) + '...';
+  document.getElementById('breadcrumbBar').style.display = 'block';
+
+  // Highlight nav
+  document.querySelectorAll('#mainNav a').forEach(a => {
+    if (a.href.includes('kat=' + slug)) a.classList.add('active');
+  });
+
+  // Badge
+  const badge = document.getElementById('artBadge');
+  badge.textContent = kat;
+  badge.className = 'badge ' + (badgeClass[kat] || '');
+
+  // Judul & deck
+  document.getElementById('artJudul').textContent = b.judul;
+  document.getElementById('artDeck').textContent = (b.isi || '').split('\n')[0] || '';
+
+  // Penulis & avatar
+  const penulis = b.penulis || 'Admin';
+  document.getElementById('artPenulis').textContent = penulis;
+  document.getElementById('artAvatar').textContent = penulis.substring(0, 2).toUpperCase();
+
+  // Tanggal
+  document.getElementById('artTanggal').textContent = formatTgl(b.created_at);
+
+  // Hero image
+  const heroEl = document.getElementById('artHeroImg');
+  if (b.foto_url) {
+    heroEl.innerHTML = `
+      <img src="${b.foto_url}" alt="${b.judul}" onerror="this.parentNode.innerHTML=''">
+      <p class="img-caption">Foto: Portal Jawa / Redaksi</p>`;
+  } else {
+    heroEl.innerHTML = `<div class="ph" style="width:100%;height:360px;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)"></div>`;
+  }
+
+  // Body
+  document.getElementById('artBody').innerHTML = isiKeParagraf(b.isi);
+
+  // Related — berita kategori sama, exclude yang sedang dibaca
+  const related = allData.filter(x => x.kategori === b.kategori && x.id !== b.id).slice(0, 2);
+  if (related.length > 0) {
+    document.getElementById('relatedSection').style.display = 'block';
+    document.getElementById('relatedGrid').innerHTML = related.map(r => `
+      <a href="berita.html?id=${r.id}" class="related-card card-link">
+        ${r.foto_url
+          ? `<img src="${r.foto_url}" style="height:110px;width:100%;object-fit:cover" onerror="this.style.display='none'">`
+          : `<div class="ph" style="height:110px;background:#eef2f8"></div>`}
+        <div class="related-badge">${r.kategori}</div>
+        <div class="related-headline">${r.judul}</div>
+        <div class="related-meta">${timeAgo(r.created_at)}</div>
+      </a>`).join('');
+  }
+
+  // Sidebar
+  const sidebar = allData.filter(x => x.id !== b.id).slice(0, 5);
+  document.getElementById('sidebarList').innerHTML = sidebar.map(s => `
+    <a href="berita.html?id=${s.id}" class="widget-item card-link" style="text-decoration:none">
+      <div class="widget-thumb" style="background:#eef2f8">
+        ${s.foto_url ? `<img src="${s.foto_url}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">` : ''}
+      </div>
+      <div>
+        <div class="widget-badge">${s.kategori || '—'}</div>
+        <div class="widget-headline">${s.judul}</div>
+        <div class="widget-time">${timeAgo(s.created_at)}</div>
+      </div>
+    </a>`).join('');
+
+  // Show
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('articleMain').style.display = 'block';
+  document.getElementById('articleSidebar').style.display = 'block';
+}
+
+function showError() {
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('errorState').style.display = 'block';
+}
+
+function shareArticle() {
+  if (navigator.share) {
+    navigator.share({ title: document.title, url: window.location.href });
+  } else {
+    navigator.clipboard.writeText(window.location.href).then(() => alert('Link berhasil disalin!'));
+  }
+}
+
+function subscribe() {
+  const input = document.querySelector('.nl-input');
+  if (!input) return;
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) { alert('Masukkan email yang valid!'); return; }
+  alert('Terima kasih! ' + email + ' berhasil didaftarkan.');
+  input.value = '';
+}
+
+loadBerita();
+</script>
 </body>
 </html>
